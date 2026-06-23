@@ -5,34 +5,24 @@ using UnityEngine;
 public class Water2DLevelController : MonoBehaviour
 {
     [Header("Detección")]
-    [Tooltip("Transform que define desde dónde se hace la detección. Si está vacío, se usa este mismo objeto.")]
     public Transform detectionOrigin;
-
-    [Tooltip("Offset adicional (en espacio local del origen) respecto al punto de detección")]
     public Vector3 detectionOffset = Vector3.zero;
 
-    [Tooltip("Tamaño COMPLETO de la caja de detección (no half-extents)")]
     public Vector3 boxSize = new Vector3(10f, 5f, 10f);
 
-    [Tooltip("Si está activo, la caja rota junto con el 'detectionOrigin'. Si no, siempre queda alineada a los ejes del mundo.")]
     public bool useOriginRotation = false;
 
-    [Tooltip("Capa(s) de los objetos que afectan el nivel del agua")]
     public LayerMask objectsLayer;
 
     [Header("Distancias de influencia (para el cálculo del nivel)")]
-    [Tooltip("Distancia desde el centro de detección a partir de la cual un objeto ya no influye (nivel = 0.5)")]
     public float maxDistance = 10f;
 
-    [Tooltip("Distancia a la que un objeto genera la influencia máxima (nivel = 1)")]
     public float minDistance = 1f;
 
     [Header("Suavizado")]
-    [Tooltip("Qué tan rápido se interpola hacia el nivel objetivo. Mayor = más rápido")]
     public float smoothSpeed = 2f;
 
     [Header("Shader")]
-    [Tooltip("Nombre de la propiedad float en el shader (debe coincidir exactamente)")]
     public string shaderPropertyName = "_WaterLevel";
 
     private float currentWaterLevel = 0.5f;

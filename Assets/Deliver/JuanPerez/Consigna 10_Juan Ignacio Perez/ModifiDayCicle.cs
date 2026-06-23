@@ -7,26 +7,35 @@ public class ModifiDayCicle : MonoBehaviour
     public enum SpinAxis { Horizontal, Vertical }
 
     [SerializeField] private GameObject directionalLight;
-    [SerializeField] private Projector projector;
+    [SerializeField] private List<Projector> projectors = new List<Projector>();
 
     [SerializeField] private float currentRotation;
     [SerializeField] private Material windowMaterial;
 
     [SerializeField] private Color lightColor;
+    [SerializeField] private Color sunsetColor;
     [SerializeField] private Color darkColor;
 
     [SerializeField] private float rotationSpeed = 10f;
     public SpinAxis spinAxis = SpinAxis.Vertical;
 
     private float currentAngle = 0f;
-    private Quaternion baseRotation;
+    private List<Quaternion> projectorBaseRotations = new List<Quaternion>();
+    private Quaternion directionalLightBaseRotation;
 
     void Awake()
     {
-        // Guardamos la rotación inicial del objeto (la que tenga puesta en el editor/escena)
-        baseRotation = projector.transform.localRotation;
+        // Guardamos la rotación inicial de CADA projector (la que tenga puesta en el editor/escena)
+        projectorBaseRotations.Clear();
+        foreach (var p in projectors)
+        {
+            projectorBaseRotations.Add(p != null ? p.transform.localRotation : Quaternion.identity);
+        }
 
-        windowMaterial.set
+        if (directionalLight)
+        {
+            directionalLightBaseRotation = directionalLight.transform.localRotation;
+        }
     }
 
     void Update()
@@ -42,38 +51,74 @@ public class ModifiDayCicle : MonoBehaviour
 
         // --- 3) Elegir el eje de giro según la opción seleccionada ---
         Vector3 axis = (spinAxis == SpinAxis.Vertical) ? Vector3.right : Vector3.up;
+        Quaternion spin = Quaternion.AngleAxis(currentAngle, axis);
 
-        // --- 4) Aplicar el giro SOBRE la rotación base (no la pisa) ---
-        projector.transform.localRotation = baseRotation * Quaternion.AngleAxis(currentAngle, axis);
+        // --- 4) Aplicar el giro SOBRE la rotación base de cada projector (no la pisa) ---
+        for (int i = 0; i < projectors.Count; i++)
+        {
+            if (projectors[i] == null) continue;
+            projectors[i].transform.localRotation = projectorBaseRotations[i] * spin;
+        }
 
         if (directionalLight)
         {
-            directionalLight.transform.localRotation = baseRotation * Quaternion.AngleAxis(currentAngle, axis);
-        } 
+            directionalLight.transform.localRotation = directionalLightBaseRotation * spin;
+        }
 
-        // --- 5) Calcular el factor de mezcla (0 = lightColor, 1 = darkColor) ---
-        // PingPong(angle, 180): sube 0->180 y baja 180->0, justo lo que necesitamos.
-        float t = Mathf.PingPong(currentAngle, 180f) / 180f;
+        // --- 5) Calcular el color según el tramo de 90° en el que esté el ángulo ---
+        // 0-90: light->sunset | 90-180: sunset->dark | 180-270: dark->sunset | 270-360: sunset->light
+        Color blended = GetColorForAngle(currentAngle);
 
-        Color blended = Color.Lerp(lightColor, darkColor, t);
-
-        // --- 6) Aplicar el color resultante ---
+        // --- 6) Aplicar el color resultante a todos los projectors ---
         if (windowMaterial != null)
             windowMaterial.SetColor("_LightColor", blended);
 
-        if (projector != null)
-            projector.material = windowMaterial;
+        foreach (var p in projectors)
+        {
+            if (p != null)
+                p.material = windowMaterial;
+        }
     }
 
     /// <summary>
     /// Si la rotación viene de otro lado (animación, otro script, input del usuario, etc.),
     /// no llames al Update de este script y usá este método pasándole el ángulo actual (0-360).
+    ///
+    /// Divide el círculo en 4 tramos de 90° con un color "pico" en cada extremo (0/360, 90, 180, 270):
+    ///   0°   -> lightColor
+    ///   90°  -> sunsetColor
+    ///   180° -> darkColor
+    ///   270° -> sunsetColor
+    ///   360° -> lightColor (vuelve a empezar)
     /// </summary>
     public Color GetColorForAngle(float angleDegrees)
     {
         float normalizedAngle = Mathf.Repeat(angleDegrees, 360f); // por si llega negativo o >360
-        float t = Mathf.PingPong(normalizedAngle, 180f) / 180f;
-        return Color.Lerp(lightColor, darkColor, t);
+
+        if (normalizedAngle < 90f)
+        {
+            // 0 -> 90: light -> sunset
+            float t = normalizedAngle / 90f;
+            return Color.Lerp(lightColor, sunsetColor, t);
+        }
+        else if (normalizedAngle < 180f)
+        {
+            // 90 -> 180: sunset -> dark
+            float t = (normalizedAngle - 90f) / 90f;
+            return Color.Lerp(sunsetColor, darkColor, t);
+        }
+        else if (normalizedAngle < 270f)
+        {
+            // 180 -> 270: dark -> sunset
+            float t = (normalizedAngle - 180f) / 90f;
+            return Color.Lerp(darkColor, sunsetColor, t);
+        }
+        else
+        {
+            // 270 -> 360: sunset -> light
+            float t = (normalizedAngle - 270f) / 90f;
+            return Color.Lerp(sunsetColor, lightColor, t);
+        }
     }
-        
+
 }
