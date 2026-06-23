@@ -25,6 +25,8 @@ public class ModifiDayCicle : MonoBehaviour
     {
         // Guardamos la rotación inicial del objeto (la que tenga puesta en el editor/escena)
         baseRotation = projector.transform.localRotation;
+
+        windowMaterial.set
     }
 
     void Update()
