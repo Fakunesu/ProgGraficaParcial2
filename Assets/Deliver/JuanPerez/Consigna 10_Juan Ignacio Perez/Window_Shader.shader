@@ -112,7 +112,7 @@ Shader "Window_Shader"
 }
 /*ASEBEGIN
 Version=18900
-368;81;1092;526;791.634;344.7295;1;True;False
+363;73;1101;535;2311.028;1089.197;3.515316;True;False
 Node;AmplifyShaderEditor.UnityProjectorMatrixNode;1;-1043.01,59.09363;Inherit;False;0;1;FLOAT4x4;0
 Node;AmplifyShaderEditor.PosVertexDataNode;2;-1073.807,163.1294;Inherit;False;1;0;5;FLOAT4;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;3;-849.4978,103.0127;Inherit;False;2;2;0;FLOAT4x4;0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1;False;1;FLOAT4;0,0,0,0;False;1;FLOAT4;0
@@ -120,8 +120,8 @@ Node;AmplifyShaderEditor.BreakToComponentsNode;4;-689.4978,103.0127;Inherit;Fals
 Node;AmplifyShaderEditor.DynamicAppendNode;5;-511.4978,102.0127;Inherit;False;FLOAT2;4;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;1;FLOAT2;0
 Node;AmplifyShaderEditor.WireNode;7;-383.9729,197.2533;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleDivideOpNode;6;-289.9729,101.2533;Inherit;False;2;0;FLOAT2;0,0;False;1;FLOAT;0;False;1;FLOAT2;0
-Node;AmplifyShaderEditor.TexturePropertyNode;12;-393.4542,-101.3313;Inherit;True;Property;_Texture0;Texture 0;0;0;Create;True;0;0;0;False;0;False;1310c389b00742944a196851ef347845;None;False;white;Auto;Texture2D;-1;0;2;SAMPLER2D;0;SAMPLERSTATE;1
-Node;AmplifyShaderEditor.SamplerNode;8;-138.2981,72.16922;Inherit;True;Property;_TextureSample0;Texture Sample 0;0;0;Create;True;0;0;0;False;0;False;-1;7a1fd3f5fef75b64385591e1890d1842;None;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.TexturePropertyNode;12;-393.4542,-101.3313;Inherit;True;Property;_Texture0;Texture 0;0;0;Create;True;0;0;0;False;0;False;1310c389b00742944a196851ef347845;1310c389b00742944a196851ef347845;False;white;Auto;Texture2D;-1;0;2;SAMPLER2D;0;SAMPLERSTATE;1
+Node;AmplifyShaderEditor.SamplerNode;8;-138.2981,72.16922;Inherit;True;Property;_TextureSample0;Texture Sample 0;0;0;Create;True;0;0;0;False;0;False;-1;7a1fd3f5fef75b64385591e1890d1842;7a1fd3f5fef75b64385591e1890d1842;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.ColorNode;9;-69.36407,-121.3042;Inherit;False;Property;_LightColor;LightColor;1;0;Create;False;0;0;0;False;0;False;0.9844026,1,0.7028302,0;0.9844026,1,0.7028302,0;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;10;248.7878,56.57855;Inherit;False;2;2;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
 Node;AmplifyShaderEditor.StandardSurfaceOutputNode;0;700.6417,55.14619;Float;False;True;-1;2;ASEMaterialInspector;0;0;Standard;Window_Shader;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;False;False;False;False;False;False;Back;0;False;-1;0;False;-1;False;0;False;-1;0;False;-1;False;0;Transparent;0.5;True;True;0;False;Transparent;;Transparent;All;14;all;True;True;True;True;0;False;-1;False;0;False;-1;255;False;-1;255;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;False;2;15;10;25;False;0.5;True;2;5;False;-1;10;False;-1;0;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;0;0,0,0,0;VertexOffset;True;False;Cylindrical;False;Relative;0;;-1;-1;-1;-1;0;False;0;0;False;-1;-1;0;False;-1;0;0;0;False;0.1;False;-1;0;False;-1;False;16;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;2;FLOAT3;0,0,0;False;3;FLOAT;0;False;4;FLOAT;0;False;5;FLOAT;0;False;6;FLOAT3;0,0,0;False;7;FLOAT3;0,0,0;False;8;FLOAT;0;False;9;FLOAT;0;False;10;FLOAT;0;False;13;FLOAT3;0,0,0;False;11;FLOAT3;0,0,0;False;12;FLOAT3;0,0,0;False;14;FLOAT4;0,0,0,0;False;15;FLOAT3;0,0,0;False;0
@@ -140,4 +140,4 @@ WireConnection;10;1;8;0
 WireConnection;0;0;10;0
 WireConnection;0;9;8;0
 ASEEND*/
-//CHKSM=910CCB528A9A23EDDC3A1DC3D8078530F3BDEF7E
+//CHKSM=C507F4DA707AAD2F5754BC9310170F8388C92457

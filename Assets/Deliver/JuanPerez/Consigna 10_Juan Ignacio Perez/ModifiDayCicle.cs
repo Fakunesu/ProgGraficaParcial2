@@ -43,7 +43,11 @@ public class ModifiDayCicle : MonoBehaviour
 
         // --- 4) Aplicar el giro SOBRE la rotación base (no la pisa) ---
         projector.transform.localRotation = baseRotation * Quaternion.AngleAxis(currentAngle, axis);
-        directionalLight.transform.localRotation = baseRotation * Quaternion.AngleAxis(currentAngle, axis);
+
+        if (directionalLight)
+        {
+            directionalLight.transform.localRotation = baseRotation * Quaternion.AngleAxis(currentAngle, axis);
+        } 
 
         // --- 5) Calcular el factor de mezcla (0 = lightColor, 1 = darkColor) ---
         // PingPong(angle, 180): sube 0->180 y baja 180->0, justo lo que necesitamos.

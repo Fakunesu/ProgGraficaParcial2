@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: M_Wata
+  m_Name: Water2D_Material
   m_Shader: {fileID: 4800000, guid: 7876eadd05ff8354aa1a78313e6a64fe, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
@@ -86,11 +86,12 @@ Material:
     - _Speed: 3.28
     - _SrcBlend: 1
     - _UVSec: 0
-    - _WaterLevel: 0.357
+    - _WaterLevel: 0.9463026
     - _WaveFrequency: 1.71
     - _WaveHeight: 0.3
     - _ZWrite: 1
     - __dirty: 0
+    - _waterOpacity: 0.873
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _Color0: {r: 0, g: 0.7756935, b: 0.8207547, a: 0}
