@@ -106,7 +106,7 @@ Shader "readerSurf"
 				#ifdef ASE_NEEDS_FRAG_WORLD_POSITION
 				float3 WorldPosition = i.worldPos;
 				#endif
-				float4 color1 = IsGammaSpace() ? float4(1,0,0,1) : float4(1,0,0,1);
+				float4 color1 = IsGammaSpace() ? float4(0.1792453,0.1716358,0.1716358,1) : float4(0.02700252,0.02494495,0.02494495,1);
 				
 				
 				finalColor = color1;
@@ -121,9 +121,9 @@ Shader "readerSurf"
 }
 /*ASEBEGIN
 Version=18900
-1064;73;400;535;855.5;224.5;1;True;False
-Node;AmplifyShaderEditor.ColorNode;1;-250.5,-30.5;Inherit;False;Constant;_Color0;Color 0;0;0;Create;True;0;0;0;False;0;False;1,0,0,1;0,0,0,0;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+0;0;1920;1011;1615.5;459.5;1;False;False
+Node;AmplifyShaderEditor.ColorNode;1;-250.5,-30.5;Inherit;False;Constant;_Color0;Color 0;0;0;Create;True;0;0;0;False;0;False;0.1792453,0.1716358,0.1716358,1;0,0,0,0;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;0;0,0;Float;False;True;-1;2;ASEMaterialInspector;100;1;readerSurf;0770190933193b94aaa3065e307002fa;True;Unlit;0;0;Unlit;2;False;True;0;1;False;-1;0;False;-1;0;1;False;-1;0;False;-1;True;0;False;-1;0;False;-1;False;False;False;False;False;False;False;False;False;True;0;False;-1;False;True;0;False;-1;False;True;True;True;True;True;0;False;-1;False;False;False;False;False;False;True;True;True;66;False;-1;255;False;-1;255;False;-1;7;False;-1;3;False;-1;1;False;-1;1;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;True;True;0;False;-1;True;0;False;-1;True;False;0;False;-1;0;False;-1;True;1;RenderType=Opaque=RenderType;True;2;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=ForwardBase;False;0;;0;0;Standard;1;Vertex Position,InvertActionOnDeselection;1;0;1;True;False;;False;0
 WireConnection;0;0;1;0
 ASEEND*/
-//CHKSM=28A6D153B0EF02DCF72B0166FFF7BADA9F230070
+//CHKSM=466C25AA8CF0DB6E5CF26BBA9A808488179E1DFC
