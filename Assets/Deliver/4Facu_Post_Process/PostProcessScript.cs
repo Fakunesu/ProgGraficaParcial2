@@ -8,7 +8,6 @@ public class PostProcessScript : MonoBehaviour
 
 {
 
-    public float drunked;
 
     [SerializeField] private Shader shader;
 
@@ -42,11 +41,21 @@ public class PostProcessScript : MonoBehaviour
 
     private readonly int StepValueVector = Shader.PropertyToID("_StepValueVector");
 
+    [SerializeField]public float drunked;
+
+    [SerializeField]private bool hasJustDrink;
+
+    private float soberTimer;
+    
+    private float soberTimerTime=10f;
+
+
+   
 
     private void Awake()
 
     {
-
+        hasJustDrink = false;
         material = new Material(shader);
 
     }
@@ -59,9 +68,38 @@ public class PostProcessScript : MonoBehaviour
 
     }
 
+    private void FixedUpdate()
+    {
+        if (hasJustDrink == true)
+        {
+            if (soberTimer <= soberTimerTime)
+            {
+                soberTimer += Time.deltaTime;
+            }
+            else
+            {
+                hasJustDrink = false;
+            }
+        }
+        
+        if (hasJustDrink == false)
+        {
+            Sobering();
+        }
+        
+    }
     private void Update()
     {
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            Drunked();
+            hasJustDrink = true;
+        }
 
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            Peepee();
+        }
 
         if (parpadear)
 
@@ -100,6 +138,30 @@ public class PostProcessScript : MonoBehaviour
 
     }
 
+    private void Drunked()
+    {
+        drunked = drunked +0.1f * 1.2f;
+        soberTimer = 0;
+        return;
+    }
+
+    private void Sobering()
+    {
+        if (drunked > 0)
+        {
+            drunked -= 0.1f;
+        }
+        else if (drunked < 0)
+        {
+            drunked += 0.1f;
+        }
+        else { drunked = 0; }
+    }
+
+    private void Peepee()
+    {
+        drunked = 0;
+    }
     private void Parpadear()
 
     {
