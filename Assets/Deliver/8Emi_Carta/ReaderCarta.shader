@@ -4,126 +4,44 @@ Shader "readerSurf"
 {
 	Properties
 	{
-		
+		[HideInInspector] __dirty( "", Int ) = 1
 	}
-	
+
 	SubShader
 	{
-		
-		
-		Tags { "RenderType"="Opaque" }
-	LOD 100
-
-		CGINCLUDE
-		#pragma target 3.0
-		ENDCG
-		Blend Off
-		AlphaToMask Off
+		Tags{ "RenderType" = "Opaque"  "Queue" = "Geometry+0" }
 		Cull Back
-		ColorMask RGBA
-		ZWrite On
-		ZTest LEqual
 		Stencil
 		{
-			Ref 66
-			Comp Always
-			Pass Replace
-			Fail Keep
-			ZFail Keep
+			Ref 5
+			Comp Equal
+			Pass Keep
 		}
-		
-		
-		Pass
+		CGPROGRAM
+		#pragma target 3.0
+		#pragma surface surf Standard keepalpha addshadow fullforwardshadows 
+		struct Input
 		{
-			Name "Unlit"
-			Tags { "LightMode"="ForwardBase" }
-			CGPROGRAM
+			half filler;
+		};
 
-			
-
-			#ifndef UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX
-			//only defining to not throw compilation error over Unity 5.5
-			#define UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(input)
-			#endif
-			#pragma vertex vert
-			#pragma fragment frag
-			#pragma multi_compile_instancing
-			#include "UnityCG.cginc"
-			
-
-			struct appdata
-			{
-				float4 vertex : POSITION;
-				float4 color : COLOR;
-				
-				UNITY_VERTEX_INPUT_INSTANCE_ID
-			};
-			
-			struct v2f
-			{
-				float4 vertex : SV_POSITION;
-				#ifdef ASE_NEEDS_FRAG_WORLD_POSITION
-				float3 worldPos : TEXCOORD0;
-				#endif
-				
-				UNITY_VERTEX_INPUT_INSTANCE_ID
-				UNITY_VERTEX_OUTPUT_STEREO
-			};
-
-			
-			
-			v2f vert ( appdata v )
-			{
-				v2f o;
-				UNITY_SETUP_INSTANCE_ID(v);
-				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
-				UNITY_TRANSFER_INSTANCE_ID(v, o);
-
-				
-				float3 vertexValue = float3(0, 0, 0);
-				#if ASE_ABSOLUTE_VERTEX_POS
-				vertexValue = v.vertex.xyz;
-				#endif
-				vertexValue = vertexValue;
-				#if ASE_ABSOLUTE_VERTEX_POS
-				v.vertex.xyz = vertexValue;
-				#else
-				v.vertex.xyz += vertexValue;
-				#endif
-				o.vertex = UnityObjectToClipPos(v.vertex);
-
-				#ifdef ASE_NEEDS_FRAG_WORLD_POSITION
-				o.worldPos = mul(unity_ObjectToWorld, v.vertex).xyz;
-				#endif
-				return o;
-			}
-			
-			fixed4 frag (v2f i ) : SV_Target
-			{
-				UNITY_SETUP_INSTANCE_ID(i);
-				UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(i);
-				fixed4 finalColor;
-				#ifdef ASE_NEEDS_FRAG_WORLD_POSITION
-				float3 WorldPosition = i.worldPos;
-				#endif
-				float4 color1 = IsGammaSpace() ? float4(0.1792453,0.1716358,0.1716358,1) : float4(0.02700252,0.02494495,0.02494495,1);
-				
-				
-				finalColor = color1;
-				return finalColor;
-			}
-			ENDCG
+		void surf( Input i , inout SurfaceOutputStandard o )
+		{
+			float4 color1 = IsGammaSpace() ? float4(0.1792453,0.1716358,0.1716358,1) : float4(0.02700252,0.02494495,0.02494495,1);
+			o.Albedo = color1.rgb;
+			o.Alpha = 1;
 		}
+
+		ENDCG
 	}
+	Fallback "Diffuse"
 	CustomEditor "ASEMaterialInspector"
-	
-	
 }
 /*ASEBEGIN
 Version=18900
-0;0;1920;1011;1615.5;459.5;1;False;False
+361;73;1103;536;738.105;141.744;1;True;False
 Node;AmplifyShaderEditor.ColorNode;1;-250.5,-30.5;Inherit;False;Constant;_Color0;Color 0;0;0;Create;True;0;0;0;False;0;False;0.1792453,0.1716358,0.1716358,1;0,0,0,0;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;0;0,0;Float;False;True;-1;2;ASEMaterialInspector;100;1;readerSurf;0770190933193b94aaa3065e307002fa;True;Unlit;0;0;Unlit;2;False;True;0;1;False;-1;0;False;-1;0;1;False;-1;0;False;-1;True;0;False;-1;0;False;-1;False;False;False;False;False;False;False;False;False;True;0;False;-1;False;True;0;False;-1;False;True;True;True;True;True;0;False;-1;False;False;False;False;False;False;True;True;True;66;False;-1;255;False;-1;255;False;-1;7;False;-1;3;False;-1;1;False;-1;1;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;True;True;0;False;-1;True;0;False;-1;True;False;0;False;-1;0;False;-1;True;1;RenderType=Opaque=RenderType;True;2;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=ForwardBase;False;0;;0;0;Standard;1;Vertex Position,InvertActionOnDeselection;1;0;1;True;False;;False;0
-WireConnection;0;0;1;0
+Node;AmplifyShaderEditor.StandardSurfaceOutputNode;2;0,0;Float;False;True;-1;2;ASEMaterialInspector;0;0;Standard;readerSurf;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;Back;0;False;-1;0;False;-1;False;0;False;-1;0;False;-1;False;0;Opaque;0.5;True;True;0;False;Opaque;;Geometry;All;14;all;True;True;True;True;0;False;-1;True;5;False;-1;255;False;-1;255;False;-1;5;False;-1;1;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;False;2;15;10;25;False;0.5;True;0;0;False;-1;0;False;-1;0;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;0;0,0,0,0;VertexOffset;True;False;Cylindrical;False;Relative;0;;-1;-1;-1;-1;0;False;0;0;False;-1;-1;0;False;-1;0;0;0;False;0.1;False;-1;0;False;-1;False;16;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;2;FLOAT3;0,0,0;False;3;FLOAT;0;False;4;FLOAT;0;False;5;FLOAT;0;False;6;FLOAT3;0,0,0;False;7;FLOAT3;0,0,0;False;8;FLOAT;0;False;9;FLOAT;0;False;10;FLOAT;0;False;13;FLOAT3;0,0,0;False;11;FLOAT3;0,0,0;False;12;FLOAT3;0,0,0;False;14;FLOAT4;0,0,0,0;False;15;FLOAT3;0,0,0;False;0
+WireConnection;2;0;1;0
 ASEEND*/
-//CHKSM=466C25AA8CF0DB6E5CF26BBA9A808488179E1DFC
+//CHKSM=6A7A230CE361B8A66EC3C329C91C4421A46A6651
