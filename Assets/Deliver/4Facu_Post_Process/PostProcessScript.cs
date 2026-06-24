@@ -7,39 +7,18 @@ using UnityEngine;
 public class PostProcessScript : MonoBehaviour
 
 {
+    [Header("Shaders general")]
 
+    [SerializeField] private Shader drunkedShader;
+    [SerializeField] private Shader damagedShader;
+    [SerializeField] private Shader flashBangShader;
 
-    [SerializeField] private Shader shader;
+    private Material drunkMaterial;
+    private Material damagedMaterial;
+    private Material flashBangMaterial;
+    private RenderTexture tempRT;
 
-    private Material material;
-
-    public Color myColor;
-
-    public Vector2 myCenterVector;
-
-    public Vector2 myStepValueVector;
-
-    public Color damageColor;
-
-    public Color healColor;
-
-    public Color accentColor = Color.white;
-
-    private float damageTotalTime = 0;
-
-    public float damageFlashUmbral;
-
-    public float healTimeCounter;
-
-    private bool parpadear = false;
-
-    private float hitflashCounter = 0f;
-
-    private readonly int ColorID = Shader.PropertyToID("_ColorMult");
-
-    private readonly int CenterVector = Shader.PropertyToID("_CenterVector");
-
-    private readonly int StepValueVector = Shader.PropertyToID("_StepValueVector");
+    [Header("Drunked Shaders")]
 
     [SerializeField]public float drunked;
 
@@ -49,22 +28,47 @@ public class PostProcessScript : MonoBehaviour
     
     private float soberTimerTime=10f;
 
+    [Header("Damage Shader")]
 
-   
+    [SerializeField] public float damagePercentage;
+
+    [SerializeField] private float damageFadeSpeed = 0.7f;
+
+    [Header("FlashBang Shader")]
+
+    [SerializeField] public float flashBangIntensity;
+
+    [SerializeField] private float flashBangDuration = 4f;
+
+    [SerializeField] private float flashDamage = 2f;
+
+    private float flashBangPeak;
+
+    private float flashBangTimer;
+
 
     private void Awake()
 
     {
         hasJustDrink = false;
-        material = new Material(shader);
+        drunkMaterial = new Material(drunkedShader);
+        damagedMaterial = new Material(damagedShader);
+        flashBangMaterial = new Material(flashBangShader);
 
     }
 
     private void OnRenderImage(RenderTexture source, RenderTexture destination)
-
     {
 
-        Graphics.Blit(source, destination, material);
+        RenderTexture tempRT1 = RenderTexture.GetTemporary(source.width, source.height);
+        RenderTexture tempRT2 = RenderTexture.GetTemporary(source.width, source.height);
+
+        Graphics.Blit(source, tempRT1, drunkMaterial);
+        Graphics.Blit(tempRT1, tempRT2, damagedMaterial);
+        Graphics.Blit(tempRT2, destination, flashBangMaterial);
+
+        RenderTexture.ReleaseTemporary(tempRT1);
+        RenderTexture.ReleaseTemporary(tempRT2);
 
     }
 
@@ -86,7 +90,19 @@ public class PostProcessScript : MonoBehaviour
         {
             Sobering();
         }
-        
+
+        damagePercentage = Mathf.MoveTowards(
+            damagePercentage,
+            0f,
+            damageFadeSpeed * Time.deltaTime
+        );
+
+        if (flashBangIntensity > 0f)
+        {
+            flashBangTimer += Time.deltaTime;
+            float t = Mathf.Clamp01(flashBangTimer / flashBangDuration);
+            flashBangIntensity = Mathf.Lerp(flashBangPeak, 0f, t);
+        }
     }
     private void Update()
     {
@@ -101,40 +117,35 @@ public class PostProcessScript : MonoBehaviour
             Peepee();
         }
 
-        if (parpadear)
-
+        // TEST DE DAÑO
+        if (Input.GetKeyDown(KeyCode.H))
         {
-
-            myStepValueVector.x = Mathf.Lerp(0.3f, -2f, 0.5f);
-
-
+            TakeDamage(1);
         }
 
-
-        //Parpadeo
-
-        if (Input.GetKey(KeyCode.W))
-
+        if (Input.GetKeyDown(KeyCode.J))
         {
+            TakeDamage(2);
+        }
 
-            Debug.Log("parpadear");
-
-            Parpadear();
-
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            TakeDamage(3);
+        }
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            FlashBang(1f);
+            TakeDamage(flashDamage);
         }
 
 
         // Modificar Shader
 
+        drunkMaterial.SetFloat("_alcoholDrinked", drunked);
 
-        material.SetColor(ColorID, myColor);
+        damagedMaterial.SetFloat("_damage", damagePercentage);
 
-        material.SetVector(CenterVector, myCenterVector);
-
-        material.SetVector(StepValueVector, myStepValueVector);
-
-
-        material.SetFloat("_alcoholDrinked", drunked);
+        flashBangMaterial.SetFloat("_flash", flashBangIntensity);
 
     }
 
@@ -162,13 +173,19 @@ public class PostProcessScript : MonoBehaviour
     {
         drunked = 0;
     }
-    private void Parpadear()
 
+    public void TakeDamage(float intensity)
     {
-
-        parpadear = !parpadear;
-
+        damagePercentage = (damagePercentage + intensity);
     }
+
+    public void FlashBang(float intensity)
+    {
+        flashBangIntensity = intensity;
+        flashBangPeak = intensity;
+        flashBangTimer = 0f;
+    }
+
 }
 
 

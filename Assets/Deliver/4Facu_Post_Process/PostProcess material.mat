@@ -57,7 +57,11 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Texture0:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 6a128976440e81d4fbdd3ff51a039f5c, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Texture1:
+        m_Texture: {fileID: 2800000, guid: 6a128976440e81d4fbdd3ff51a039f5c, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _TextureSample2:
@@ -95,4 +99,6 @@ Material:
     - _Dist: {r: 0, g: 0, b: 0, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _PostProcessColor: {r: 0.5188679, g: 0.48478267, b: 0.28146136, a: 0}
+    - _Vector0: {r: 40, g: 40, b: 0, a: 0}
+    - _speedOfPanner: {r: 0.5, g: 0.5, b: 0, a: 0}
   m_BuildTextureStacks: []
