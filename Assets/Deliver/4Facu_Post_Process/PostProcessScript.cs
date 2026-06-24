@@ -11,9 +11,11 @@ public class PostProcessScript : MonoBehaviour
 
     [SerializeField] private Shader drunkedShader;
     [SerializeField] private Shader damagedShader;
+    [SerializeField] private Shader flashBangShader;
 
     private Material drunkMaterial;
     private Material damagedMaterial;
+    private Material flashBangMaterial;
     private RenderTexture tempRT;
 
     [Header("Drunked Shaders")]
@@ -32,7 +34,17 @@ public class PostProcessScript : MonoBehaviour
 
     [SerializeField] private float damageFadeSpeed = 0.7f;
 
+    [Header("FlashBang Shader")]
 
+    [SerializeField] public float flashBangIntensity;
+
+    [SerializeField] private float flashBangDuration = 4f;
+
+    [SerializeField] private float flashDamage = 2f;
+
+    private float flashBangPeak;
+
+    private float flashBangTimer;
 
 
     private void Awake()
@@ -41,19 +53,22 @@ public class PostProcessScript : MonoBehaviour
         hasJustDrink = false;
         drunkMaterial = new Material(drunkedShader);
         damagedMaterial = new Material(damagedShader);
+        flashBangMaterial = new Material(flashBangShader);
 
     }
 
     private void OnRenderImage(RenderTexture source, RenderTexture destination)
-
     {
 
-        tempRT = RenderTexture.GetTemporary(source.width, source.height);
+        RenderTexture tempRT1 = RenderTexture.GetTemporary(source.width, source.height);
+        RenderTexture tempRT2 = RenderTexture.GetTemporary(source.width, source.height);
 
-        Graphics.Blit(source, tempRT, drunkMaterial);
-        Graphics.Blit(tempRT, destination, damagedMaterial);
+        Graphics.Blit(source, tempRT1, drunkMaterial);
+        Graphics.Blit(tempRT1, tempRT2, damagedMaterial);
+        Graphics.Blit(tempRT2, destination, flashBangMaterial);
 
-        RenderTexture.ReleaseTemporary(tempRT);
+        RenderTexture.ReleaseTemporary(tempRT1);
+        RenderTexture.ReleaseTemporary(tempRT2);
 
     }
 
@@ -81,6 +96,13 @@ public class PostProcessScript : MonoBehaviour
             0f,
             damageFadeSpeed * Time.deltaTime
         );
+
+        if (flashBangIntensity > 0f)
+        {
+            flashBangTimer += Time.deltaTime;
+            float t = Mathf.Clamp01(flashBangTimer / flashBangDuration);
+            flashBangIntensity = Mathf.Lerp(flashBangPeak, 0f, t);
+        }
     }
     private void Update()
     {
@@ -110,14 +132,20 @@ public class PostProcessScript : MonoBehaviour
         {
             TakeDamage(3);
         }
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            FlashBang(1f);
+            TakeDamage(flashDamage);
+        }
 
-        
 
         // Modificar Shader
 
         drunkMaterial.SetFloat("_alcoholDrinked", drunked);
 
         damagedMaterial.SetFloat("_damage", damagePercentage);
+
+        flashBangMaterial.SetFloat("_flash", flashBangIntensity);
 
     }
 
@@ -149,6 +177,13 @@ public class PostProcessScript : MonoBehaviour
     public void TakeDamage(float intensity)
     {
         damagePercentage = (damagePercentage + intensity);
+    }
+
+    public void FlashBang(float intensity)
+    {
+        flashBangIntensity = intensity;
+        flashBangPeak = intensity;
+        flashBangTimer = 0f;
     }
 
 }
