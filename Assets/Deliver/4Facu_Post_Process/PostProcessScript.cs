@@ -7,39 +7,16 @@ using UnityEngine;
 public class PostProcessScript : MonoBehaviour
 
 {
+    [Header("Shaders general")]
 
+    [SerializeField] private Shader drunkedShader;
+    [SerializeField] private Shader damagedShader;
 
-    [SerializeField] private Shader shader;
+    private Material drunkMaterial;
+    private Material damagedMaterial;
+    private RenderTexture tempRT;
 
-    private Material material;
-
-    public Color myColor;
-
-    public Vector2 myCenterVector;
-
-    public Vector2 myStepValueVector;
-
-    public Color damageColor;
-
-    public Color healColor;
-
-    public Color accentColor = Color.white;
-
-    private float damageTotalTime = 0;
-
-    public float damageFlashUmbral;
-
-    public float healTimeCounter;
-
-    private bool parpadear = false;
-
-    private float hitflashCounter = 0f;
-
-    private readonly int ColorID = Shader.PropertyToID("_ColorMult");
-
-    private readonly int CenterVector = Shader.PropertyToID("_CenterVector");
-
-    private readonly int StepValueVector = Shader.PropertyToID("_StepValueVector");
+    [Header("Drunked Shaders")]
 
     [SerializeField]public float drunked;
 
@@ -49,14 +26,21 @@ public class PostProcessScript : MonoBehaviour
     
     private float soberTimerTime=10f;
 
+    [Header("Damage Shader")]
 
-   
+    [SerializeField] public float damagePercentage;
+
+    [SerializeField] private float damageFadeSpeed = 0.7f;
+
+
+
 
     private void Awake()
 
     {
         hasJustDrink = false;
-        material = new Material(shader);
+        drunkMaterial = new Material(drunkedShader);
+        damagedMaterial = new Material(damagedShader);
 
     }
 
@@ -64,7 +48,12 @@ public class PostProcessScript : MonoBehaviour
 
     {
 
-        Graphics.Blit(source, destination, material);
+        tempRT = RenderTexture.GetTemporary(source.width, source.height);
+
+        Graphics.Blit(source, tempRT, drunkMaterial);
+        Graphics.Blit(tempRT, destination, damagedMaterial);
+
+        RenderTexture.ReleaseTemporary(tempRT);
 
     }
 
@@ -86,7 +75,12 @@ public class PostProcessScript : MonoBehaviour
         {
             Sobering();
         }
-        
+
+        damagePercentage = Mathf.MoveTowards(
+            damagePercentage,
+            0f,
+            damageFadeSpeed * Time.deltaTime
+        );
     }
     private void Update()
     {
@@ -101,40 +95,29 @@ public class PostProcessScript : MonoBehaviour
             Peepee();
         }
 
-        if (parpadear)
-
+        // TEST DE DAÑO
+        if (Input.GetKeyDown(KeyCode.H))
         {
-
-            myStepValueVector.x = Mathf.Lerp(0.3f, -2f, 0.5f);
-
-
+            TakeDamage(1);
         }
 
-
-        //Parpadeo
-
-        if (Input.GetKey(KeyCode.W))
-
+        if (Input.GetKeyDown(KeyCode.J))
         {
-
-            Debug.Log("parpadear");
-
-            Parpadear();
-
+            TakeDamage(2);
         }
 
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            TakeDamage(3);
+        }
+
+        
 
         // Modificar Shader
 
+        drunkMaterial.SetFloat("_alcoholDrinked", drunked);
 
-        material.SetColor(ColorID, myColor);
-
-        material.SetVector(CenterVector, myCenterVector);
-
-        material.SetVector(StepValueVector, myStepValueVector);
-
-
-        material.SetFloat("_alcoholDrinked", drunked);
+        damagedMaterial.SetFloat("_damage", damagePercentage);
 
     }
 
@@ -162,13 +145,12 @@ public class PostProcessScript : MonoBehaviour
     {
         drunked = 0;
     }
-    private void Parpadear()
 
+    public void TakeDamage(float intensity)
     {
-
-        parpadear = !parpadear;
-
+        damagePercentage = (damagePercentage + intensity);
     }
+
 }
 
 
