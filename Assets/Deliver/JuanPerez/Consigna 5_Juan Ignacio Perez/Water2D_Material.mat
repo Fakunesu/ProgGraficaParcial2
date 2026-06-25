@@ -86,8 +86,8 @@ Material:
     - _Speed: 3.28
     - _SrcBlend: 1
     - _UVSec: 0
-    - _WaterLevel: 0.67846256
-    - _WaveFrequency: 1.71
+    - _WaterLevel: 0.5
+    - _WaveFrequency: 4.33
     - _WaveHeight: 0.3
     - _ZWrite: 1
     - __dirty: 0
