@@ -8,6 +8,7 @@ public class Water2DLevelController : MonoBehaviour
     public Transform detectionOrigin;
     public Vector3 detectionOffset = Vector3.zero;
 
+    [Tooltip("Tamaño de la caja de detección. X y Z definen el área horizontal; Y define el rango vertical considerado. Si querés ignorar X/Z, poné valores grandes ahí.")]
     public Vector3 boxSize = new Vector3(10f, 5f, 10f);
 
     public bool useOriginRotation = false;
@@ -15,8 +16,10 @@ public class Water2DLevelController : MonoBehaviour
     public LayerMask objectsLayer;
 
     [Header("Distancias de influencia (para el cálculo del nivel)")]
+    [Tooltip("Distancia vertical (eje Y) a partir de la cual un objeto ya no influye (nivel = 0.5)")]
     public float maxDistance = 10f;
 
+    [Tooltip("Distancia vertical (eje Y) a la que un objeto genera la influencia máxima (nivel = 1)")]
     public float minDistance = 1f;
 
     [Header("Suavizado")]
@@ -60,27 +63,29 @@ public class Water2DLevelController : MonoBehaviour
         Vector3 center = GetDetectionCenter();
         Quaternion rotation = GetDetectionRotation();
 
+        // El box decide QUÉ objetos se detectan (incluyendo el rango horizontal si lo limitás)
         Collider[] nearbyObjects = Physics.OverlapBox(center, boxSize * 0.5f, rotation, objectsLayer);
 
         if (nearbyObjects.Length == 0)
         {
-            // Sin objetos cerca -> nivel mínimo permitido
+            // Sin objetos detectados -> nivel mínimo permitido
             return 0.5f;
         }
 
-        float closestDistance = maxDistance;
+        float closestVerticalDistance = maxDistance;
 
         foreach (Collider col in nearbyObjects)
         {
-            float dist = Vector3.Distance(center, col.transform.position);
-            if (dist < closestDistance)
+            // Solo nos importa qué tan cerca está en el eje Y; X y Z se ignoran a propósito
+            float verticalDist = Mathf.Abs(center.y - col.transform.position.y);
+            if (verticalDist < closestVerticalDistance)
             {
-                closestDistance = dist;
+                closestVerticalDistance = verticalDist;
             }
         }
 
-        // Normaliza la distancia: 0 = lejos (maxDistance), 1 = cerca (minDistance)
-        float t = Mathf.InverseLerp(maxDistance, minDistance, closestDistance);
+        // Normaliza la distancia vertical: 0 = lejos (maxDistance), 1 = cerca (minDistance)
+        float t = Mathf.InverseLerp(maxDistance, minDistance, closestVerticalDistance);
         t = Mathf.Clamp01(t);
 
         // Remapea siempre al rango [0.5, 1]
@@ -95,13 +100,12 @@ public class Water2DLevelController : MonoBehaviour
         }
     }
 
-    // Útil para ver el área de detección y los rangos de influencia en el editor
+    // Útil para ver el área de detección en el editor
     void OnDrawGizmosSelected()
     {
         Vector3 center = GetDetectionCenter();
         Quaternion rotation = GetDetectionRotation();
 
-        // Caja de detección (respeta rotación si useOriginRotation está activo)
         Gizmos.color = Color.cyan;
         Matrix4x4 oldMatrix = Gizmos.matrix;
         Gizmos.matrix = Matrix4x4.TRS(center, rotation, Vector3.one);

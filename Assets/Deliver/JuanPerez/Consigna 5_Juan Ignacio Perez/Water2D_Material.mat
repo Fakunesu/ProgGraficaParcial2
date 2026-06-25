@@ -86,12 +86,12 @@ Material:
     - _Speed: 3.28
     - _SrcBlend: 1
     - _UVSec: 0
-    - _WaterLevel: 0.824347
+    - _WaterLevel: 0.67846256
     - _WaveFrequency: 1.71
     - _WaveHeight: 0.3
     - _ZWrite: 1
     - __dirty: 0
-    - _waterOpacity: 0.873
+    - _waterOpacity: 0.5
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _Color0: {r: 0, g: 0.7756935, b: 0.8207547, a: 0}
