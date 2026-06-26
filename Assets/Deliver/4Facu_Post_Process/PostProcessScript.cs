@@ -128,7 +128,7 @@ public class PostProcessScript : MonoBehaviour
             hasJustDrink = true;
         }
 
-        if (Input.GetKeyDown(KeyCode.P))
+        if (Input.GetKeyDown(KeyCode.U))
         {
             Peepee();
         }

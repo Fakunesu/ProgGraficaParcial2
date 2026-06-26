@@ -7,19 +7,14 @@ public class Water2DLevelController : MonoBehaviour
     [Header("Detección")]
     public Transform detectionOrigin;
     public Vector3 detectionOffset = Vector3.zero;
-
-    [Tooltip("Tamaño de la caja de detección. X y Z definen el área horizontal; Y define el rango vertical considerado. Si querés ignorar X/Z, poné valores grandes ahí.")]
     public Vector3 boxSize = new Vector3(10f, 5f, 10f);
 
     public bool useOriginRotation = false;
 
     public LayerMask objectsLayer;
 
-    [Header("Distancias de influencia (para el cálculo del nivel)")]
-    [Tooltip("Distancia vertical (eje Y) a partir de la cual un objeto ya no influye (nivel = 0.5)")]
+    [Header("Distancias de influencia")]
     public float maxDistance = 10f;
-
-    [Tooltip("Distancia vertical (eje Y) a la que un objeto genera la influencia máxima (nivel = 1)")]
     public float minDistance = 1f;
 
     [Header("Suavizado")]
