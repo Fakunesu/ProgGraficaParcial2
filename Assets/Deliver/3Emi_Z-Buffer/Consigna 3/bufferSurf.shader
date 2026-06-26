@@ -116,7 +116,7 @@ Shader "bufferSurf"
 }
 /*ASEBEGIN
 Version=18900
-363;73;1101;535;985.8766;46.12219;1.31273;False;False
+363;73;1101;535;985.8766;46.12219;1.31273;True;False
 Node;AmplifyShaderEditor.ColorNode;1;-565.8762,47.33545;Inherit;False;Constant;_Color0;Color 0;0;0;Create;True;0;0;0;False;0;False;0,0.1000774,1,1;0,0,0,0;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.FresnelNode;4;-632.9856,268.6576;Inherit;True;Standard;WorldNormal;ViewDir;False;False;5;0;FLOAT3;0,0,1;False;4;FLOAT3;0,0,0;False;1;FLOAT;0;False;2;FLOAT;6.4;False;3;FLOAT;5;False;1;FLOAT;0
 Node;AmplifyShaderEditor.LerpOp;2;-300.8382,14.93261;Inherit;True;3;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;2;FLOAT;0;False;1;COLOR;0
@@ -126,4 +126,4 @@ WireConnection;2;2;4;0
 WireConnection;0;0;2;0
 WireConnection;0;9;4;0
 ASEEND*/
-//CHKSM=38022E5A3BA642D7D63BE58B7BE30FC56E98FB1E
+//CHKSM=F011689FB4F1883AF998D8F2DEBB29B3804C62D8
