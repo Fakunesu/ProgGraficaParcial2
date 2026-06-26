@@ -12,9 +12,11 @@ public class PostProcessScript : MonoBehaviour
     [SerializeField] private Shader drunkedShader;
     [SerializeField] private Shader damagedShader;
     [SerializeField] private Shader flashBangShader;
+    [SerializeField] private Shader healingShader;
 
     private Material drunkMaterial;
     private Material damagedMaterial;
+    private Material healingMaterial;
     private Material flashBangMaterial;
     private RenderTexture tempRT;
 
@@ -33,6 +35,12 @@ public class PostProcessScript : MonoBehaviour
     [SerializeField] public float damagePercentage;
 
     [SerializeField] private float damageFadeSpeed = 0.7f;
+
+    [Header("Healing Shader")]
+
+    [SerializeField] public float healingPercentage;
+
+    [SerializeField] private float healingFadeSpeed = 0.7f;
 
     [Header("FlashBang Shader")]
 
@@ -53,23 +61,25 @@ public class PostProcessScript : MonoBehaviour
         hasJustDrink = false;
         drunkMaterial = new Material(drunkedShader);
         damagedMaterial = new Material(damagedShader);
+        healingMaterial = new Material(healingShader);
         flashBangMaterial = new Material(flashBangShader);
 
     }
 
     private void OnRenderImage(RenderTexture source, RenderTexture destination)
     {
-
         RenderTexture tempRT1 = RenderTexture.GetTemporary(source.width, source.height);
         RenderTexture tempRT2 = RenderTexture.GetTemporary(source.width, source.height);
+        RenderTexture tempRT3 = RenderTexture.GetTemporary(source.width, source.height);
 
         Graphics.Blit(source, tempRT1, drunkMaterial);
         Graphics.Blit(tempRT1, tempRT2, damagedMaterial);
-        Graphics.Blit(tempRT2, destination, flashBangMaterial);
+        Graphics.Blit(tempRT2, tempRT3, healingMaterial);
+        Graphics.Blit(tempRT3, destination, flashBangMaterial);
 
         RenderTexture.ReleaseTemporary(tempRT1);
         RenderTexture.ReleaseTemporary(tempRT2);
-
+        RenderTexture.ReleaseTemporary(tempRT3);
     }
 
     private void FixedUpdate()
@@ -96,6 +106,12 @@ public class PostProcessScript : MonoBehaviour
             0f,
             damageFadeSpeed * Time.deltaTime
         );
+        
+        healingPercentage = Mathf.MoveTowards(
+           healingPercentage,
+           0f,
+           healingFadeSpeed * Time.deltaTime
+       );
 
         if (flashBangIntensity > 0f)
         {
@@ -120,7 +136,7 @@ public class PostProcessScript : MonoBehaviour
         // TEST DE DAÑO
         if (Input.GetKeyDown(KeyCode.H))
         {
-            TakeDamage(1);
+            Healing();
         }
 
         if (Input.GetKeyDown(KeyCode.J))
@@ -144,6 +160,8 @@ public class PostProcessScript : MonoBehaviour
         drunkMaterial.SetFloat("_alcoholDrinked", drunked);
 
         damagedMaterial.SetFloat("_damage", damagePercentage);
+
+        healingMaterial.SetFloat("_healing", healingPercentage);
 
         flashBangMaterial.SetFloat("_flash", flashBangIntensity);
 
@@ -177,6 +195,11 @@ public class PostProcessScript : MonoBehaviour
     public void TakeDamage(float intensity)
     {
         damagePercentage = (damagePercentage + intensity);
+    }
+
+    public void Healing()
+    {
+        healingPercentage += 2;
     }
 
     public void FlashBang(float intensity)
