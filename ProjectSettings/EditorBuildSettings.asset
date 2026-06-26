@@ -9,19 +9,19 @@ EditorBuildSettings:
     path: "Assets/Deliver/01_DistanceRenderTextureDrawMesh_Lautaro_L\xF3pezLange/distrenddraw.unity"
     guid: 12898ab1c12f072418ad5e0db115313d
   - enabled: 1
-    path: Assets/Deliver/OliverioFogiel/2_Distance_Oliverio_Fogiel/ej2/EJ2F.unity
+    path: Assets/Deliver/2_Distance_Oliverio_Fogiel/ej2/EJ2F.unity
     guid: a85e0584041d195468da0990812f95b0
   - enabled: 1
     path: Assets/Deliver/3Emi_Z-Buffer/Consigna 3/ZBuffer.unity
     guid: 5dcfeaf225a253440ba73712bf3c010e
   - enabled: 1
-    path: Assets/Scenes/4Facu_Post_Process.unity
+    path: Assets/Deliver/4Facu_Post_Process/4Facu_Post_Process.unity
     guid: 4222f3b18fd7f4542bfc9aeba95513a8
   - enabled: 1
     path: Assets/Deliver/5_Sprites_Juan Ignacio Perez/Consigna_5.unity
     guid: 75050565a5a7e734facd92a9ca28a169
   - enabled: 1
-    path: Assets/Scenes/6Facu_UI.unity
+    path: Assets/Deliver/6Facu_UI/6Facu_UI.unity
     guid: e8ef668f931a2ff4dac3f594d2274088
   - enabled: 1
     path: "Assets/Deliver/07_Stencil_Lautaro_L\xF3pezLange/stencil.unity"
@@ -30,7 +30,7 @@ EditorBuildSettings:
     path: Assets/Deliver/8Emi_Carta/Carta.unity
     guid: f4c3f229403e0b3409c5ded77bd33a99
   - enabled: 1
-    path: Assets/Deliver/OliverioFogiel/9_Projector_Oliverio_Fogiel/EJ9.unity
+    path: Assets/Deliver/9_Projector_Oliverio_Fogiel/EJ9.unity
     guid: 3c96586e448f948408fe563fe4a58aa1
   - enabled: 1
     path: Assets/Deliver/10_Projector_Juan Ignacio Perez/Consigna_10.unity
