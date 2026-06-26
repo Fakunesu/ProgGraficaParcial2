@@ -34,8 +34,6 @@ public class Water2DLevelController : MonoBehaviour
     void Update()
     {
         float targetLevel = CalculateTargetWaterLevel();
-
-        // Interpolación suave hacia el valor objetivo (evita saltos bruscos)
         currentWaterLevel = Mathf.Lerp(currentWaterLevel, targetLevel, Time.deltaTime * smoothSpeed);
 
         ApplyToShader(currentWaterLevel);
@@ -63,12 +61,10 @@ public class Water2DLevelController : MonoBehaviour
         Vector3 center = GetDetectionCenter();
         Quaternion rotation = GetDetectionRotation();
 
-        // El box decide QUÉ objetos se detectan (incluyendo el rango horizontal si lo limitás)
         Collider[] nearbyObjects = Physics.OverlapBox(center, boxSize * 0.5f, rotation, objectsLayer);
 
         if (nearbyObjects.Length == 0)
         {
-            // Sin objetos detectados -> nivel mínimo permitido
             return 0.5f;
         }
 
@@ -76,7 +72,6 @@ public class Water2DLevelController : MonoBehaviour
 
         foreach (Collider col in nearbyObjects)
         {
-            // Solo nos importa qué tan cerca está en el eje Y; X y Z se ignoran a propósito
             float verticalDist = Mathf.Abs(center.y - col.transform.position.y);
             if (verticalDist < closestVerticalDistance)
             {
@@ -84,11 +79,9 @@ public class Water2DLevelController : MonoBehaviour
             }
         }
 
-        // Normaliza la distancia vertical: 0 = lejos (maxDistance), 1 = cerca (minDistance)
         float t = Mathf.InverseLerp(maxDistance, minDistance, closestVerticalDistance);
         t = Mathf.Clamp01(t);
 
-        // Remapea siempre al rango [0.5, 1]
         return Mathf.Lerp(0.5f, 1f, t);
     }
 
@@ -100,7 +93,6 @@ public class Water2DLevelController : MonoBehaviour
         }
     }
 
-    // Útil para ver el área de detección en el editor
     void OnDrawGizmosSelected()
     {
         Vector3 center = GetDetectionCenter();

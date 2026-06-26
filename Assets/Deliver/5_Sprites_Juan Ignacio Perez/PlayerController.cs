@@ -21,8 +21,6 @@ public class PlayerController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
 
-        // Congelamos rotaciones que no necesitamos y la posición en Z,
-        // así nos asegurás que el player solo se mueve en el plano X/Y.
         rb.constraints = RigidbodyConstraints.FreezeRotationX
                         | RigidbodyConstraints.FreezeRotationZ
                         | RigidbodyConstraints.FreezePositionZ;
@@ -30,15 +28,14 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        // Input Manager clásico (Edit > Project Settings > Input Manager)
-        horizontalInput = Input.GetAxis("Horizontal"); // A/D o flechas <-/->
+        horizontalInput = Input.GetAxis("Horizontal"); 
 
         if (groundCheck != null)
         {
             isGrounded = Physics.CheckSphere(groundCheck.position, groundCheckRadius, groundLayer);
         }
 
-        if (Input.GetButtonDown("Jump") && isGrounded) // Espacio por default
+        if (Input.GetButtonDown("Jump") && isGrounded)
         {
             Jump();
         }
@@ -46,7 +43,6 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        // Movemos solo en X, dejamos la Y como está (gravedad / impulso de salto)
         Vector3 velocity = rb.velocity;
         velocity.x = horizontalInput * moveSpeed;
         rb.velocity = velocity;
@@ -54,7 +50,6 @@ public class PlayerController : MonoBehaviour
 
     private void Jump()
     {
-        // Reseteamos la velocidad vertical para que el salto siempre tenga la misma altura
         Vector3 velocity = rb.velocity;
         velocity.y = 0f;
         rb.velocity = velocity;
