@@ -56,19 +56,23 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _TextureSample0:
+        m_Texture: {fileID: 2800000, guid: 5acc02f5f1a382e40825420db0b4044a, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _texcoord:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Bias: 0.5
+    - _Bias: 0.7
     - _Bias1: 0
     - _BumpScale: 1
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
-    - _Float0: 7.39
+    - _Float0: 8.78
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
@@ -86,14 +90,18 @@ Material:
     - _Speed: 3.28
     - _SrcBlend: 1
     - _UVSec: 0
-    - _WaterLevel: 0.5001903
-    - _WaveFrequency: 4.33
+    - _WaterLevel: 0.67925537
+    - _Water_Bias: 0.7
+    - _Water_Pow: 0.5
+    - _Water_Scale: 0.5
+    - _WaveFrequency: 8
     - _WaveHeight: 0.3
     - _ZWrite: 1
     - __dirty: 0
-    - _waterOpacity: 0.5
+    - _waterOpacity: 0.75
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _Color0: {r: 0, g: 0.7756935, b: 0.8207547, a: 0}
+    - _Color0: {r: 0, g: 0.5713506, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _WaterColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
