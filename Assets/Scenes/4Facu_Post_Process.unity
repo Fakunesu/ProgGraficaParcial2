@@ -414,10 +414,13 @@ MonoBehaviour:
   drunkedShader: {fileID: 4800000, guid: 81a4a3bc73c0d9a48b267e6aa01df230, type: 3}
   damagedShader: {fileID: 4800000, guid: c637da0718573a543a935f66569b3509, type: 3}
   flashBangShader: {fileID: 4800000, guid: a017c00eb8c9c1e4d8e4620abd283bcd, type: 3}
+  healingShader: {fileID: 4800000, guid: 0fa3afa4b5ce4184bbf5298475247736, type: 3}
   drunked: 0
   hasJustDrink: 0
   damagePercentage: 0
   damageFadeSpeed: 0.7
+  healingPercentage: 0
+  healingFadeSpeed: 0.7
   flashBangIntensity: 0
   flashBangDuration: 3.5
   flashDamage: 2
