@@ -37,8 +37,6 @@ public class SceneController : MonoBehaviour
     {
         int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
 
-        Debug.Log(currentSceneIndex);
-
         int totalScenes = SceneManager.sceneCountInBuildSettings;
 
         int previousSceneIndex = currentSceneIndex - 1;
@@ -49,7 +47,7 @@ public class SceneController : MonoBehaviour
         }
         else
         {
-            SceneManager.LoadScene(totalScenes);
+            SceneManager.LoadScene(totalScenes -1);
         }
     }
 }
