@@ -90,7 +90,7 @@ Material:
     - _Speed: 3.28
     - _SrcBlend: 1
     - _UVSec: 0
-    - _WaterLevel: 0.6772678
+    - _WaterLevel: 0.5
     - _Water_Bias: 0.7
     - _Water_Pow: 0.5
     - _Water_Scale: 0.5
